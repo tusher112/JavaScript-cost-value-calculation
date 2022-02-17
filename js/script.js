@@ -2,17 +2,14 @@
 function getInput(value) {
     let InputFiled = parseInt(document.getElementById(value).value);
     if (InputFiled < 0) {
-        alert("Please Provide a positive number");
+        alert("Please Provide a positive amount");
 
     }
-    // if (isString(InputFiled)) {
-    //     alert("Please Provide a valid amount")
-    // }
 
     if (InputFiled >= 0) {
         return InputFiled;
     }
-
+    InputFiled.value= "";
 }
 
 
@@ -24,22 +21,34 @@ function dashBoard(value) {
 
 
 
-
 //calculate button's function
 document.getElementById('calculate-button').addEventListener('click', function () {
     const incomeInputFiled = getInput('income-input');
     const foodInputFiled = getInput('food-cost');
     const rentInputFiled = getInput('rent-cost');
     const clothesInputFiled = getInput('clothes-cost');
+
     let totalExpensesDashboard = dashBoard('total-expenses-dashboard');
     totalExpensesDashboard.innerText = parseInt((isNaN(foodInputFiled) ? 0 : +foodInputFiled) + (isNaN(rentInputFiled) ? 0 : +rentInputFiled) + (isNaN(clothesInputFiled) ? 0 : +clothesInputFiled));
 
 
     let balanceDashboard = dashBoard('total-balance-dashboard');
-    balanceDashboard.innerText = (isNaN(incomeInputFiled) ? 0 : +incomeInputFiled) - totalExpensesDashboard.innerText;
+    const startingBalance = balanceDashboard.innerText;
+    console.log(incomeInputFiled);
+    balanceDashboard.innerText = (isNaN(incomeInputFiled) ? 0 : +incomeInputFiled) - (isNaN(totalExpensesDashboard.innerText) ? 0 : +totalExpensesDashboard.innerText);
+
+
+    if (totalExpensesDashboard.innerText > incomeInputFiled) {
+        alert("insufficient balance");
+        balanceDashboard.innerText = incomeInputFiled;
+
+        totalExpensesDashboard.innerText = 0;
+
+    }
 
     let remainingBalance = dashBoard('remaining-balance-dashboard');
     remainingBalance.innerText = balanceDashboard.innerText;
+
 
 })
 

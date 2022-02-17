@@ -9,7 +9,7 @@ function getInput(value) {
     if (InputFiled >= 0) {
         return InputFiled;
     }
-    InputFiled.value= "";
+    InputFiled.value = "";
 }
 
 
@@ -32,37 +32,44 @@ document.getElementById('calculate-button').addEventListener('click', function (
     totalExpensesDashboard.innerText = parseInt((isNaN(foodInputFiled) ? 0 : +foodInputFiled) + (isNaN(rentInputFiled) ? 0 : +rentInputFiled) + (isNaN(clothesInputFiled) ? 0 : +clothesInputFiled));
 
 
-    let balanceDashboard = dashBoard('total-balance-dashboard');
-    const startingBalance = balanceDashboard.innerText;
-    console.log(incomeInputFiled);
-    balanceDashboard.innerText = (isNaN(incomeInputFiled) ? 0 : +incomeInputFiled) - (isNaN(totalExpensesDashboard.innerText) ? 0 : +totalExpensesDashboard.innerText);
+    let totalBalanceDashboard = dashBoard('total-balance-dashboard');
+    
+    totalBalanceDashboard.innerText = (isNaN(incomeInputFiled) ? 0 : +incomeInputFiled) - (isNaN(totalExpensesDashboard.innerText) ? 0 : +totalExpensesDashboard.innerText);
 
 
     if (totalExpensesDashboard.innerText > incomeInputFiled) {
         alert("insufficient balance");
-        balanceDashboard.innerText = incomeInputFiled;
 
+        totalBalanceDashboard.innerText = incomeInputFiled;
         totalExpensesDashboard.innerText = 0;
+
 
     }
 
-    let remainingBalance = dashBoard('remaining-balance-dashboard');
-    remainingBalance.innerText = balanceDashboard.innerText;
+    let remainingDashboard = dashBoard('remaining-balance-dashboard');
+    remainingDashboard.innerText = totalBalanceDashboard.innerText;
 
 
 })
 
 //save button's function
 document.getElementById('saving-button').addEventListener('click', function () {
-    const balance = document.getElementById('total-balance-dashboard').innerText;
-    const saving = parseInt(document.getElementById('saving-input').value);
 
-    const savingFinal = (saving / 100) * balance;
+    const incomeInputFiled = getInput('income-input');
+    let totalExpensesDashboard = dashBoard('total-expenses-dashboard');
+
+
+    const saving = parseInt(document.getElementById('saving-input').value);
+    const savingFinal = (saving / 100) * incomeInputFiled;
 
     const savingAmount = document.getElementById('saving-amount-dashboard');
-    savingAmount.innerText = savingFinal;
+    savingAmount.innerText = (isNaN(savingFinal) ? 0 : +savingFinal);
 
-    const remainingBalanceFinal = document.getElementById('remaining-balance-dashboard');
-    remainingBalanceFinal.innerText = balance - savingFinal;
+
+    let remainingDashboard = dashBoard('remaining-balance-dashboard');
+    remainingDashboard.innerText = (isNaN(incomeInputFiled) ? 0 : +incomeInputFiled) - ((isNaN(totalExpensesDashboard) ? 0 : +totalExpensesDashboard) + (isNaN(savingFinal) ? 0 : +savingFinal));
+
+    remainingDashboard.innerText = ((isNaN(incomeInputFiled) ? 0 : +incomeInputFiled) - (isNaN(savingAmount.innerText) ? 0 : +savingAmount.innerText) - (isNaN(totalExpensesDashboard.innerText) ? 0 : +totalExpensesDashboard.innerText));
+
 
 })

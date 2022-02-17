@@ -9,11 +9,9 @@ function getInput(value) {
     if (InputFiled >= 0) {
         return InputFiled;
     }
-    InputFiled.value = "";
 }
 
-
-
+// Balance Dashboard function 
 function dashBoard(value) {
     const valueOfDashboard = document.getElementById(value);
     return valueOfDashboard;
@@ -33,7 +31,7 @@ document.getElementById('calculate-button').addEventListener('click', function (
 
 
     let totalBalanceDashboard = dashBoard('total-balance-dashboard');
-    
+
     totalBalanceDashboard.innerText = (isNaN(incomeInputFiled) ? 0 : +incomeInputFiled) - (isNaN(totalExpensesDashboard.innerText) ? 0 : +totalExpensesDashboard.innerText);
 
 
@@ -42,8 +40,12 @@ document.getElementById('calculate-button').addEventListener('click', function (
 
         totalBalanceDashboard.innerText = incomeInputFiled;
         totalExpensesDashboard.innerText = 0;
+    }
+    if (totalBalanceDashboard.innerText < 0) {
+        alert("You have no Balance");
 
-
+        totalBalanceDashboard.innerText = 0;
+        totalExpensesDashboard.innerText = 0;
     }
 
     let remainingDashboard = dashBoard('remaining-balance-dashboard');
@@ -52,6 +54,7 @@ document.getElementById('calculate-button').addEventListener('click', function (
 
 })
 
+
 //save button's function
 document.getElementById('saving-button').addEventListener('click', function () {
 
@@ -59,7 +62,11 @@ document.getElementById('saving-button').addEventListener('click', function () {
     let totalExpensesDashboard = dashBoard('total-expenses-dashboard');
 
 
-    const saving = parseInt(document.getElementById('saving-input').value);
+    let saving = parseInt(document.getElementById('saving-input').value);
+    if (saving < 0 || saving > 100) {
+        alert(' please enter the value between 1 to 100 ');
+        saving = 0;
+    }
     const savingFinal = (saving / 100) * incomeInputFiled;
 
     const savingAmount = document.getElementById('saving-amount-dashboard');
